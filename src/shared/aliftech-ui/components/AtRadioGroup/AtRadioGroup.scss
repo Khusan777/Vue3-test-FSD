@@ -1,0 +1,17 @@
+.form- {
+  &radio {
+    &--error {
+      &:checked {
+        background-color: #f8b4b4;
+      }
+    }
+    &--success {
+      &:checked {
+        background-color: #0e9f6e;
+      }
+    }
+    &:disabled {
+      opacity: 0.7
+    }
+  }
+}

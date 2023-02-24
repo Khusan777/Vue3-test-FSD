@@ -1,0 +1,25 @@
+.at-modal {
+  pointer-events: none;
+  display: flex;
+  text-align: center;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s opacity ease, 0.3s visibility ease;
+  & .at-modal-back {
+    opacity: 0.75;
+  }
+  & .at-modal-wrapper {
+    max-width: calc(100% - 2px);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 1, 1);
+    transform: scale(0.95);
+  }
+  &.display {
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+    & .at-modal-wrapper {
+      transform: scale(1);
+    }
+  }
+}

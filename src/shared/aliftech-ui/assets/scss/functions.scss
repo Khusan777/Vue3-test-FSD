@@ -1,0 +1,78 @@
+@function generateAlternative($style) {
+  @return ('': $style, 'hover': $style, 'active': $style, 'focus': $style)
+}
+
+@mixin generateColor($argument, $className) {
+
+  $red_factor: red($argument); // коэффициент красного цвета
+  $green_factor: green($argument); // коэффициент зеленого цвета
+  $blue_factor: blue($argument); // коэффициент синего цвета
+  $tint_factor: 0.188; // коэффициент светлого оттенка
+  $shade_factor: 0.15; // коэффициент темного оттенка
+
+  $result: ('': $argument);
+  $template: ('red': null, 'green': null, 'blue': null);
+
+  // Генерируем светлые оттенки от 500 до 100 и 50
+  @for $i from 6 through 0 {
+    $tint_red: round($red_factor + (255 - $red_factor) * ($tint_factor * $i));
+    $tint_green: round($green_factor + (255 - $green_factor) * ($tint_factor * $i));
+    $tint_blue: round($blue_factor + (255 - $blue_factor) * ($tint_factor * $i));
+    $rgb: rgb($tint_red, $tint_green,$tint_blue);
+    @if $i != 6{
+      $result: map_merge($result, ((6 - ($i))*100: $rgb));
+    } @else {
+      $result: map_merge($result, (50: $rgb));
+     
+    }
+  }
+  
+  // Генерируем темные оттенки от 700 до 900
+  @for $i from 1 through 3 {
+    $shade_red: round($red_factor * (1 - ($shade_factor * $i)));
+    $shade_green: round($green_factor * (1 - ($shade_factor * $i)));
+    $shade_blue: round($blue_factor * (1 - ($shade_factor * $i)));
+    $rgb: rgb($shade_red, $shade_green,$shade_blue);
+    $result: map_merge($result, (($i + 6)*100: $rgb));
+  }
+  $result: map_merge($result, (600: $argument));
+ 
+  $primitive: (bg: generateAlternative('background-color'), text: generateAlternative('color'), border: generateAlternative('border-color'));
+  @each $mode, $color in $result {
+    @each $class, $values in $primitive {
+      @each $alternative, $style in $values {
+        $modification: '';
+        @if $alternative != '' {
+          $modification: $alternative + '\\:'
+        }
+        $selector: #{$modification}#{$class}-#{$className};
+        @if $mode != '' {
+          $selector: #{$selector}-#{$mode};
+        }
+        @if $alternative != '' {
+          $selector: $selector + ':' + $alternative
+        }
+        .#{$selector} {
+          #{$style}: $color;
+        }
+        // Генерация свойств для группы
+        @if $alternative != '' {
+          .group:#{$alternative} {
+            .group-#{$modification}#{$class}-#{$className}-#{$mode} {
+              #{$style}: $color;
+            }
+          }
+        }
+      }
+    }
+  }
+  @each $key, $style in generateAlternative('box-shadow') {
+    @if $key != '' {
+      $modification: $key + '\\:';
+      $selector: #{$modification}shadow-outline-#{$className};
+      .#{$selector}:#{$key} {
+        #{$style}: 0 0 0 3px rgba(map_get($result, 200), 0.45);
+      }
+    }
+  }
+}

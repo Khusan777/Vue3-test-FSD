@@ -1,0 +1,11 @@
+.at-list-link {
+  &:not(:first-child) {
+    border-top-width: 1px;
+    --border-opacity: 1;
+    border-color: #e5e7eb;
+    border-color: rgba(229, 231, 235, var(--border-opacity));
+  }
+  .dark & {
+    @apply border-gray-700
+  }
+}

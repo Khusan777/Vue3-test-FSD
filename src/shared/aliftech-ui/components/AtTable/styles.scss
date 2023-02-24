@@ -1,0 +1,66 @@
+.at-table {
+  $root: &;
+
+  &_size {
+    &-sm {
+      #{$root} {
+        &__header,
+        &__footer,
+        &__head-element,
+        &__body-element {
+          @apply px-4;
+        }
+        &__header,
+        &__footer {
+          @apply py-2;
+        }
+        &__head-element {
+          @apply py-2;
+        }
+        &__body-element {
+          @apply py-2;
+        }
+      }
+    }
+    &-md {
+      #{$root} {
+        &__header,
+        &__footer,
+        &__head-element,
+        &__body-element {
+          @apply px-4;
+        }
+        &__header,
+        &__footer {
+          @apply py-4;
+        }
+        &__head-element {
+          @apply py-2.5;
+        }
+        &__body-element {
+          @apply py-3;
+        }
+      }
+    }
+    &-lg {
+      #{$root} {
+        &__header,
+        &__footer,
+        &__head-element,
+        &__body-element {
+          @apply px-6;
+        }
+        &__header,
+        &__footer {
+          @apply py-5;
+        }
+        &__head-element {
+          @apply py-2.5;
+        }
+        &__body-element {
+          @apply py-4;
+        }
+      }
+    }
+  }
+}
